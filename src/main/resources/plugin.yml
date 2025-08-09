@@ -1,0 +1,39 @@
+name: SAW-Plugin
+version: 1.0.0
+main: de.hallo5000.main.Main
+description: A plugin specifically for the SAW Minecraft server
+author: hallo5000
+website: https://github.com/Hallo5000
+api-version: '1.21.8'
+depend: [LuckPerms]
+
+permissions:
+  saw.friend:
+    description: "The permission to use the /friend command"
+    default: op
+  saw.unfriend:
+    description: "The permission to use the /unfriend command"
+    default: op
+  saw.authenticate.self:
+    description: "The permission to use /authenticate to authenticate yourself!"
+    default: op
+  saw.authenticate.others:
+    description: "The permission to use /authenticate to authenticate others!"
+    default: op
+  saw.ping:
+    description: "The Permission to use /ping"
+    default: not op
+
+commands:
+  friend:
+    description: "Adds a friend to the server"
+    usage: "/friend <player>"
+  unfriend:
+    description: "Removes a friend from the server"
+    usage: "/unfriend <player>"
+  authenticate:
+    description: "Authenticates yourself or others as residents"
+    usage: "/authenticate [player] [ip-bypass-flag]"
+  ping:
+    description: "Shows a player their ping"
+    usage: "/ping"
