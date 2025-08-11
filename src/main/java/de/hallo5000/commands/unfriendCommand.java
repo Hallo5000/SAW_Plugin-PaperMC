@@ -1,6 +1,7 @@
 package de.hallo5000.commands;
 
 import de.hallo5000.main.Main;
+import net.luckperms.api.context.ImmutableContextSet;
 import net.luckperms.api.model.user.User;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,7 +30,7 @@ public class unfriendCommand implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     User u = Main.lp.getUserManager().getUser(p.getUniqueId());
-                    Main.lp.getTrackManager().getTrack("base-track").demote(u, null);
+                    Main.lp.getTrackManager().getTrack("base-track").demote(u, ImmutableContextSet.empty());
                     Main.lp.getUserManager().saveUser(u);
                     sender.sendMessage("§aYou've succesfully §cremoved §f" + p.getName() + " §aas friend from the server!");
                     if(sender instanceof Player) Main.logCommand(command, sender, ((Player) sender).getUniqueId().toString(), p.getName());

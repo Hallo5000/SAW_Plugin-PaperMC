@@ -1,8 +1,6 @@
 package de.hallo5000.commands;
 
 import de.hallo5000.main.Main;
-import net.luckperms.api.context.Context;
-import net.luckperms.api.context.ContextSet;
 import net.luckperms.api.context.ImmutableContextSet;
 import net.luckperms.api.model.user.User;
 import org.bukkit.command.Command;
@@ -50,9 +48,10 @@ public class authenticateCommand implements CommandExecutor, TabCompleter {
                 if(u.getPrimaryGroup().equals("default")){
                     Main.lp.getTrackManager().getTrack("base-track").promote(u, ImmutableContextSet.empty());
                     Main.lp.getTrackManager().getTrack("base-track").promote(u, ImmutableContextSet.empty());
-                    Main.lp.getUserManager().saveUser(u);
                 }else if(u.getPrimaryGroup().equals("friend")) Main.lp.getTrackManager().getTrack("base-track").promote(u, ImmutableContextSet.empty());
                 Main.lp.getUserManager().saveUser(u);
+                p.sendMessage("§aYou've successfully authenticated yourself!");
+                Main.logCommand(command, p, p.getUniqueId().toString(), p.getName());
             }else{
                 sender.sendMessage("§cOnly players can authenticate themselves!");
             }
@@ -100,9 +99,11 @@ public class authenticateCommand implements CommandExecutor, TabCompleter {
                 if(u.getPrimaryGroup().equals("default")){
                     Main.lp.getTrackManager().getTrack("base-track").promote(u, ImmutableContextSet.empty());
                     Main.lp.getTrackManager().getTrack("base-track").promote(u, ImmutableContextSet.empty());
-                    Main.lp.getUserManager().saveUser(u);
                 }else if(u.getPrimaryGroup().equals("friend")) Main.lp.getTrackManager().getTrack("base-track").promote(u, ImmutableContextSet.empty());
                 Main.lp.getUserManager().saveUser(u);
+                sender.sendMessage("§aYou've successfully authenticated §f" + other.getName());
+                if(sender instanceof Player) Main.logCommand(command, sender, ((Player) sender).getUniqueId().toString(), other.getName());
+                else Main.logCommand(command, sender, "NOT-A-PLAYER", other.getName());
             }else{
                 sender.sendMessage("Usage: /authenticate [others]");
             }
@@ -114,8 +115,10 @@ public class authenticateCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        if(sender.hasPermission("saw.authenticate.others") && args.length == 1){
-            return Main.getPlugin(Main.class).getServer().getOnlinePlayers().stream().map(Player::getName).toList();
+        if(sender.hasPermission("saw.authenticate.others")){
+            if(args.length == 1){
+                return Main.getPlugin(Main.class).getServer().getOnlinePlayers().stream().map(Player::getName).toList();
+            }else if(args.length == 2) return List.of("true", "false");
         }
         return Collections.emptyList();
     }

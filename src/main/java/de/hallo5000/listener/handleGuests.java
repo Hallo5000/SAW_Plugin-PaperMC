@@ -44,7 +44,10 @@ public class handleGuests implements Listener {
                 Component.text("Welcome").appendNewline().append(Component.text("WIP"))
         );
         i.setItemMeta(book);
-        p.openBook(i);
+        //p.openBook(i);
+        p.sendMessage("Welcome to the §5SAW Minecraft Server§f!");
+        p.sendMessage("If you are a resident, please use §6/authenticate §fwhile you're connected to the dorm-network");
+        p.sendMessage("If you just know someone from the dorm and want to play with them, they can use §6/friend §fto add you to the server");
     }
 
     public static void onNodeMutate(NodeMutateEvent e){
